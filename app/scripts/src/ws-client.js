@@ -10,7 +10,7 @@ function registerOpenHandler(handlerFunction){
     socket.onopen = () =>{ //arrow function for es6: shorthand for anon function
       console.log("open"); //confimrs connection has been opened
       handlerFunction();
-    }
+    };
 }
 
 function registerMessageHandler(handlerFunction){
@@ -18,7 +18,7 @@ function registerMessageHandler(handlerFunction){
     console.log("message", e.data); //show the message from the object
     let data = JSON.parse(e.data); //parse the JSON data
     handlerFunction(data); //will forward it to handlerFunction
-  }
+  };
 }
 
 //takes the message payload with teh info and make it a JSON string, and then send it to websocket server
