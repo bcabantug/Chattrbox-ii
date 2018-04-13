@@ -1,5 +1,6 @@
 //import
 import socket from "./ws-client";
+import {UserStore} from "./storage";
 import {ChatForm, ChatList, promptForUsername} from "./dom";
 
 //constants for HTML
@@ -7,9 +8,13 @@ const FORM_SELECTOR = "[data-chat=\"chat-form\"]";
 const INPUT_SELECTOR = "[data-chat=\"message-input\"]";
 const LIST_SELECTOR = "[data-chat=\"message-list\"]"; //for messages list
 
-let username = ""; //calls username prompt to appear
-username = promptForUsername();
-
+//let username = ""; //calls username prompt to appear
+let userStore = new UserStore("x-chattrbox/u");
+let username = userStore.get();
+if (!username){
+  username = promptForUsername();
+  userStore.set(username);
+}
 //will be used for application logic
 class ChatApp{
   //constructor
