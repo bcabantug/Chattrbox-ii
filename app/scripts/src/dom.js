@@ -1,5 +1,16 @@
 //imports jquery for use after it's installed from npm
 import $ from 'jquery';
+import md5 from "crypto-js/md5";
+
+function createGravatarUrl(username){ //hashes the username string to append to url to allow for use of gravatar
+  let userhash = md5(username);
+  return `http://www.gravatar.com/avatar/${userhash.toString()}`; //use backticks (under escape button)
+}
+
+export function promptForUsername(){ //export function to allow for entering a username
+  let username = prompt("Enter a username");
+  return username.toLowerCase();
+}
 
 //manages form selector in the dom
 //export class through Named Exports to export multiple named values instead of single default value
@@ -54,13 +65,16 @@ export class ChatList {
       "class" : "message-message",
       text : m
     }));
+
+    let $img = $("<img>", {
+      src: createGravatarUrl(u),
+      title : u
+    });
 //loads the message and scrolls it into view
+    $messageRow.append($img);
     $messageRow.append($message);
     this.$list.append($messageRow);
     $messageRow.get(0).scrollIntoView();
   }
-
-
-
 
 }
