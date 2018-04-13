@@ -1,6 +1,7 @@
 //imports jquery for use after it's installed from npm
 import $ from 'jquery';
 import md5 from "crypto-js/md5";
+import moment from "moment";
 
 function createGravatarUrl(username){ //hashes the username string to append to url to allow for use of gravatar
   let userhash = md5(username);
@@ -58,7 +59,8 @@ export class ChatList {
     $message.append($("<span>", {
       "class" : "timestamp",
       "data-time" : t,
-      text: (new Date(t)).getTime()
+      //text: (new Date(t)).getTime()
+      text: moment(t).fromNow() //utilizes moment to set the timestamp
     }));
 
     $message.append($("<span>", {
@@ -75,6 +77,18 @@ export class ChatList {
     $messageRow.append($message);
     this.$list.append($messageRow);
     $messageRow.get(0).scrollIntoView();
+  }
+
+  //time stamp formatting using moment
+  init(){
+    this.timer = setInterval(() => {
+      $("[data-time]").each((idx, element) => {
+        let $element = $(element);
+        let timestamp = new Date().setTime($element.attr("data-time"));
+        let ago = moment(timestamp).fromNow();
+        $element.html(ago);
+      });
+    }, 1000);
   }
 
 }

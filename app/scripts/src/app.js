@@ -33,7 +33,8 @@ class ChatApp{
       this.chatForm.init((data) => {
         let message = new ChatMessage({message: data});
         socket.sendMessage(message.serialize());
-      })
+      });
+      this.chatList.init(); // initializes the chatList init for timestamp
     });
 
     socket.registerMessageHandler((data) => {
