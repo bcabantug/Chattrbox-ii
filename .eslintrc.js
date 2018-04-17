@@ -1,6 +1,12 @@
 module.exports = {
+
+    "parserOptions" : {
+      "ecmaVersion": 6,
+      "sourceType" : "module"
+    },
     "env": {
-        "browser": true
+        "browser": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
     "rules": {

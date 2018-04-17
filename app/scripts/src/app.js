@@ -1,8 +1,14 @@
 //import
 import socket from "./ws-client";
-import {UserStore} from "./storage";
-import {ChatForm, ChatList, promptForUsername} from "./dom";
-
+import {
+  UserStore
+} from "./storage";
+import {
+  ChatForm,
+  ChatList,
+  promptForUsername
+} from "./dom";
+/*eslint-disable no-console*/
 //constants for HTML
 const FORM_SELECTOR = "[data-chat=\"chat-form\"]";
 const INPUT_SELECTOR = "[data-chat=\"message-input\"]";
@@ -11,14 +17,14 @@ const LIST_SELECTOR = "[data-chat=\"message-list\"]"; //for messages list
 //let username = ""; //calls username prompt to appear
 let userStore = new UserStore("x-chattrbox/u");
 let username = userStore.get();
-if (!username){
+if (!username) {
   username = promptForUsername();
   userStore.set(username);
 }
 //will be used for application logic
-class ChatApp{
+class ChatApp {
   //constructor
-  constructor(){
+  constructor() {
     this.chatForm = new ChatForm(FORM_SELECTOR, INPUT_SELECTOR); //creates new ChatForm with
     this.chatList = new ChatList(LIST_SELECTOR, username); // used to be 'wonderwoman'
     //console.log("Hello, ES6!");
@@ -31,7 +37,9 @@ class ChatApp{
 
       //takes the message and sends the callback with the data
       this.chatForm.init((data) => {
-        let message = new ChatMessage({message: data});
+        let message = new ChatMessage({
+          message: data
+        });
         socket.sendMessage(message.serialize());
       });
       this.chatList.init(); // initializes the chatList init for timestamp
@@ -46,20 +54,20 @@ class ChatApp{
 }
 
 //creating a chat message class
-class ChatMessage{
+class ChatMessage {
   constructor({
     //use of destructuring assignment syntax for parameters
     message: m,
     user: u = username, //former 'batman'
-    timestamp: t =  (new Date()).getTime()
-  }){ //assigns the parameters to the chatmessage object
+    timestamp: t = (new Date()).getTime()
+  }) { //assigns the parameters to the chatmessage object
     this.message = m;
     this.user = u;
     this.timestamp = t;
   }
-//displays the object in plaintext
-  serialize(){
-    return{
+  //displays the object in plaintext
+  serialize() {
+    return {
       user: this.user,
       message: this.message,
       timestamp: this.timestamp
